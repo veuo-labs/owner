@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyCredentials, createSessionToken, saveSession } from "@/lib/auth";
-import type { ActionResult } from "@/lib/types";
+import { verifyCredentials, createSessionToken } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,9 +10,15 @@ export async function POST(req: NextRequest) {
     }
 
     const token = createSessionToken();
-    saveSession(token);
 
-    return NextResponse.json({ success: true, token });
+    return NextResponse.json(
+      { success: true, token },
+      {
+        headers: {
+          "Set-Cookie": `zedwix_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=3600`,
+        },
+      }
+    );
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }

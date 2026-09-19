@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getSession } from "@/lib/auth";
+import { getSession, saveSession } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,6 +30,7 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (data.success) {
+        saveSession(data.token);
         router.push("/dashboard");
         router.refresh();
       } else {

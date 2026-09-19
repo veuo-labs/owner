@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { clearSession } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
-  clearSession();
-  return NextResponse.json({ success: true });
+  return NextResponse.json(
+    { success: true },
+    {
+      headers: {
+        "Set-Cookie": "zedwix_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0",
+      },
+    }
+  );
 }
