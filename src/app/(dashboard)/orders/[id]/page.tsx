@@ -90,7 +90,7 @@ export default function OrderDetailPage(props: { params: Promise<{ id: string }>
 
     const token = await markOrderReadyForHandover(order.id, handoverLiveUrl.trim());
     if (token) {
-      const fullUrl = `${window.location.origin}/acceptance.html?token=${token}`;
+      const fullUrl = `${window.location.origin}/acceptance?token=${token}`;
       setGeneratedHandoverLink(fullUrl);
       loadOrder();
     }
